@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3025618C1E71472F005DF7FF /* InstrumentsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3025618B1E71472F005DF7FF /* InstrumentsKit.framework */; };
-		3086E15E1DBEFB3900FA1F92 /* DVTInstrumentsFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3086E15D1DBEFB3900FA1F92 /* DVTInstrumentsFoundation.framework */; };
-		3086E1601DBEFE7A00FA1F92 /* DVTFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3086E15F1DBEFE7A00FA1F92 /* DVTFoundation.framework */; };
+		DC63A8751FD0F7D8000121E2 /* InstrumentsPackaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC63A8741FD0F7D8000121E2 /* InstrumentsPackaging.framework */; };
+		DC63A8771FD14103000121E2 /* DVTInstrumentsUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC63A8761FD14103000121E2 /* DVTInstrumentsUtilities.framework */; };
+		DCC5EC771FCFA2B400FA3681 /* InstrumentsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC5EC761FCFA2B300FA3681 /* InstrumentsKit.framework */; };
+		DCC5EC791FCFA2FB00FA3681 /* DVTFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC5EC781FCFA2FB00FA3681 /* DVTFoundation.framework */; };
+		DCC5EC7B1FCFA31800FA3681 /* DVTInstrumentsFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC5EC7A1FCFA31800FA3681 /* DVTInstrumentsFoundation.framework */; };
 		FECBF4831B9D577200D653A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FECBF4821B9D577200D653A7 /* main.m */; };
 		FECBF4951B9D6CE500D653A7 /* InstrumentsPlugIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBF4931B9D6CE500D653A7 /* InstrumentsPlugIn.framework */; };
 /* End PBXBuildFile section */
@@ -27,9 +29,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3025618B1E71472F005DF7FF /* InstrumentsKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstrumentsKit.framework; path = ../../../../Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Frameworks/InstrumentsKit.framework; sourceTree = "<group>"; };
-		3086E15D1DBEFB3900FA1F92 /* DVTInstrumentsFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTInstrumentsFoundation.framework; path = ../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTInstrumentsFoundation.framework; sourceTree = "<group>"; };
-		3086E15F1DBEFE7A00FA1F92 /* DVTFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTFoundation.framework; path = ../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework; sourceTree = "<group>"; };
+		DC63A8741FD0F7D8000121E2 /* InstrumentsPackaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstrumentsPackaging.framework; path = ../../../../../Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Frameworks/InstrumentsPackaging.framework; sourceTree = "<group>"; };
+		DC63A8761FD14103000121E2 /* DVTInstrumentsUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTInstrumentsUtilities.framework; path = ../../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTInstrumentsUtilities.framework; sourceTree = "<group>"; };
+		DCC5EC761FCFA2B300FA3681 /* InstrumentsKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstrumentsKit.framework; path = ../../../../../Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Frameworks/InstrumentsKit.framework; sourceTree = "<group>"; };
+		DCC5EC781FCFA2FB00FA3681 /* DVTFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTFoundation.framework; path = ../../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework; sourceTree = "<group>"; };
+		DCC5EC7A1FCFA31800FA3681 /* DVTInstrumentsFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTInstrumentsFoundation.framework; path = ../../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTInstrumentsFoundation.framework; sourceTree = "<group>"; };
 		FE0153E61B9E7E630062C910 /* InstrumentsPrivateHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InstrumentsPrivateHeader.h; sourceTree = "<group>"; };
 		FECBF47F1B9D577200D653A7 /* TraceUtility */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TraceUtility; sourceTree = BUILT_PRODUCTS_DIR; };
 		FECBF4821B9D577200D653A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,10 +45,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3086E1601DBEFE7A00FA1F92 /* DVTFoundation.framework in Frameworks */,
-				3086E15E1DBEFB3900FA1F92 /* DVTInstrumentsFoundation.framework in Frameworks */,
+				DCC5EC791FCFA2FB00FA3681 /* DVTFoundation.framework in Frameworks */,
+				DCC5EC771FCFA2B400FA3681 /* InstrumentsKit.framework in Frameworks */,
+				DCC5EC7B1FCFA31800FA3681 /* DVTInstrumentsFoundation.framework in Frameworks */,
 				FECBF4951B9D6CE500D653A7 /* InstrumentsPlugIn.framework in Frameworks */,
-				3025618C1E71472F005DF7FF /* InstrumentsKit.framework in Frameworks */,
+				DC63A8751FD0F7D8000121E2 /* InstrumentsPackaging.framework in Frameworks */,
+				DC63A8771FD14103000121E2 /* DVTInstrumentsUtilities.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,10 +60,12 @@
 		FE0153E51B9E7E370062C910 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3086E15F1DBEFE7A00FA1F92 /* DVTFoundation.framework */,
-				3086E15D1DBEFB3900FA1F92 /* DVTInstrumentsFoundation.framework */,
+				DC63A8761FD14103000121E2 /* DVTInstrumentsUtilities.framework */,
+				DC63A8741FD0F7D8000121E2 /* InstrumentsPackaging.framework */,
+				DCC5EC781FCFA2FB00FA3681 /* DVTFoundation.framework */,
+				DCC5EC7A1FCFA31800FA3681 /* DVTInstrumentsFoundation.framework */,
 				FECBF4931B9D6CE500D653A7 /* InstrumentsPlugIn.framework */,
-				3025618B1E71472F005DF7FF /* InstrumentsKit.framework */,
+				DCC5EC761FCFA2B300FA3681 /* InstrumentsKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -114,7 +122,7 @@
 		FECBF4771B9D577200D653A7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = Qusic;
 				TargetAttributes = {
 					FECBF47E1B9D577200D653A7 = {
@@ -159,14 +167,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -194,7 +208,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(SYSTEM_APPS_DIR)/Xcode.app/Contents/SharedFrameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/OtherFrameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/PrivateFrameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/Applications/Instruments.app/Contents/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -209,14 +223,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -237,7 +257,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(SYSTEM_APPS_DIR)/Xcode.app/Contents/SharedFrameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/OtherFrameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/PrivateFrameworks $(SYSTEM_APPS_DIR)/Xcode.app/Contents/Applications/Instruments.app/Contents/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
@@ -267,7 +287,7 @@
 				FECBF4851B9D577200D653A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		FECBF4861B9D577200D653A7 /* Build configuration list for PBXNativeTarget "TraceUtility" */ = {
 			isa = XCConfigurationList;
@@ -276,7 +296,7 @@
 				FECBF4881B9D577200D653A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

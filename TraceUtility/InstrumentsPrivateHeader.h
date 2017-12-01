@@ -11,9 +11,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    NSString *PFTDeveloperDirectory(void);
+    NSString *PFTUserTemplateDirectory(void);
     void DVTInitializeSharedFrameworks(void);
     BOOL PFTLoadPlugins(void);
+    void PFTInstrumentsAppTemplates(void);
+    void PFTPackageManager(void);
 #ifdef __cplusplus
 }
 #endif

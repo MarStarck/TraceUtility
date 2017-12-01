@@ -28,31 +28,48 @@ static void __attribute__((constructor)) hook() {
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // Required. Each instrument is a plugin and we have to load them before we can process their data.
+        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/Applications/Instruments.app"];
         DVTInitializeSharedFrameworks();
         [DVTDeveloperPaths initializeApplicationDirectoryName:@"Instruments"];
         [XRInternalizedSettingsStore configureWithAdditionalURLs:nil];
-        PFTLoadPlugins();
-
+        // TUPrint(PFTUserTemplateDirectory());
+        if (PFTLoadPlugins()){
+            TUPrint(@"yes");
+        }else{
+            TUPrint(@"no");
+        };
+        // PFTClosePlugins();
+        // TUPrint(PFTDeveloperDirectory());
+        //PFTInstrumentsAppTemplates();
+        PFTPackageManager();
         // Instruments has its own subclass of NSDocumentController without overriding sharedDocumentController method.
         // We have to call this eagerly to make sure the correct document controller is initialized.
         [PFTDocumentController sharedDocumentController];
 
         // Open a trace document.
-        NSString *tracePath = NSProcessInfo.processInfo.arguments[1];
+        // NSString *tracePath = NSProcessInfo.processInfo.arguments[1];
+        NSString *tracePath = @"/Users/difeitang/Downloads/Instruments5.trace";
         NSError *error = nil;
-        PFTTraceDocument *document = [[PFTTraceDocument alloc]initWithContentsOfURL:[NSURL fileURLWithPath:tracePath] ofType:@"Trace Document" error:&error];
+        
+        PFTTraceDocument *document = [[PFTTraceDocument alloc] init];
+        Class cls = PFTTraceDocument.class;
+        TUPrint(@"Version %d", class_getVersion(cls));
+        [document readFromURL:[NSURL fileURLWithPath:tracePath] ofType:@"Trace Document" error:&error];
+        
+        //PFTTraceDocument *document = [[PFTTraceDocument alloc]initWithContentsOfURL:[NSURL fileURLWithPath:tracePath] ofType:@"Trace Document" error:&error];
         if (error) {
             TUPrint(@"Error: %@\n", error);
             return 1;
         }
+        
         TUPrint(@"Trace: %@\n", tracePath);
-
+        
         // List some useful metadata of the document.
         XRDevice *device = document.targetDevice;
         TUPrint(@"Device: %@ (%@ %@ %@)\n", device.deviceDisplayName, device.productType, device.productVersion, device.buildVersion);
         PFTProcess *process = document.defaultProcess;
         TUPrint(@"Process: %@ (%@)\n", process.displayName, process.bundleIdentifier);
-
+        
         // Each trace document consists of data from several different instruments.
         XRTrace *trace = document.trace;
         for (XRInstrument *instrument in trace.allInstrumentsList.allInstruments) {
@@ -66,7 +83,7 @@ int main(int argc, const char * argv[]) {
             [controller instrumentDidChangeSwitches];
             [controller instrumentChangedTableRequirements];
             id<XRContextContainer> container = controller.detailContextContainer.contextRepresentation.container;
-
+            
             // Each instrument can have multiple runs.
             NSArray<XRRun *> *runs = instrument.allRuns;
             if (runs.count == 0) {
@@ -174,6 +191,7 @@ int main(int argc, const char * argv[]) {
         }
 
         // Close the document safely.
+        
         [document close];
     }
     return 0;
