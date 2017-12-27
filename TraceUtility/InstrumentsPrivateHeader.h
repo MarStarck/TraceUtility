@@ -85,18 +85,29 @@ typedef struct { XRTime start, length; } XRTimeRange;
 - (PFTProcess *)defaultProcess;
 @end
 
+@interface PFTInstrumentPlugin : NSObject
+@end
+
 @interface PFTDocumentController : NSDocumentController
 @end
 
 @protocol XRContextContainer;
 
-@interface XRContext : NSObject
+@interface XRContext : NSObject <NSSecureCoding>
+{
+    NSString *_label;
+    NSMutableDictionary *_attributes;
+    XRContext *_parent;
+    NSString *_containerUUID;
+    id <XRContextContainer> _container;
+}
 - (NSString *)label;
 - (id<NSCoding>)value;
 - (id<XRContextContainer>)container;
 - (instancetype)parentContext;
 - (instancetype)rootContext;
 - (void)display;
+@property(readonly, copy, nonatomic) NSMutableDictionary *attributes; // @synthesize attributes=_attributes;
 @end
 
 @protocol XRContextContainer <NSObject>
@@ -111,6 +122,7 @@ typedef struct { XRTime start, length; } XRTimeRange;
 @end
 
 @interface XRAnalysisCoreDetailViewController : NSViewController <XRAnalysisCoreViewSubcontroller>
+- (id)currentDataContext;
 @end
 
 @protocol XRInstrumentViewController <NSObject>
@@ -159,6 +171,10 @@ typedef struct { XRTime start, length; } XRTimeRange;
 
 @interface XRCallTreeDetailView : NSView
 - (XRBacktraceRepository *)backtraceRepository;
+@end
+
+@interface XRAnalysisCoreCallTreeViewController : NSView
+- (XRMultiProcessBacktraceRepository *)backtraceRepository;
 @end
 
 @interface XRLegacyInstrument : XRInstrument <XRInstrumentViewController, XRContextContainer>
@@ -252,4 +268,25 @@ typedef struct {
 }
 - (XRPowerStreamDefinition *)definitionForCurrentDetailView;
 - (XRPowerTimeline *)selectedEventTimeline;
+@end
+
+
+@interface XRAnalysisCoreDetailNode : NSObject <NSSecureCoding>
+@end
+
+
+@interface XRAnalysisCoreTableViewColumnList : NSObject
+{
+    NSMutableArray *_contents;
+    NSMutableDictionary *_itemsByIdent;
+    NSMutableArray *_narrativeColumnItems;
+    NSTableColumn *_timeColumn;
+}
+@end
+
+@interface XRAnalysisCoreTableViewController : NSViewController
+{
+    NSTableView *_tableView;
+    XRAnalysisCoreTableViewColumnList *_columns;
+}
 @end

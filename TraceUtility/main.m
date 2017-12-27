@@ -28,32 +28,65 @@ static void __attribute__((constructor)) hook() {
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // Required. Each instrument is a plugin and we have to load them before we can process their data.
+        
         [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/Applications/Instruments.app"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/SceneKit.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/ModelIO.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/PhysicsKit.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/Jet.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/SpriteKit.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/GameplayKit.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/DVTInstrumentsFoundation.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/SharedFrameworks/DVTInstrumentsUtilities.framework"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform"];
+//        [NSBundle bundleWithPath:@"/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Frameworks/InstrumentsKit.framework"];
+//        [NSBundle bundleWithPath:@""];
+//        [NSBundle bundleWithPath:@""];
+        
+        
+        // NSURL *url = [NSURL URLWithString:@"/Applications/Xcode.app"];
+        // [NSBundle bundleWithURL:url];
+        // [[NSBundle mainBundle] pathForResource:@"traceData" ofType:@"trace"];
+        // [NSBundle bundleWithPath:@"/Applications/Xcode.app"];
         DVTInitializeSharedFrameworks();
         [DVTDeveloperPaths initializeApplicationDirectoryName:@"Instruments"];
         [XRInternalizedSettingsStore configureWithAdditionalURLs:nil];
         // TUPrint(PFTUserTemplateDirectory());
+        
+        
         if (PFTLoadPlugins()){
             TUPrint(@"yes");
         }else{
             TUPrint(@"no");
         };
-        // PFTClosePlugins();
         // TUPrint(PFTDeveloperDirectory());
         //PFTInstrumentsAppTemplates();
-        PFTPackageManager();
+        PFTInstrumentPlugin *plg = [[PFTInstrumentPlugin alloc] init];
         // Instruments has its own subclass of NSDocumentController without overriding sharedDocumentController method.
         // We have to call this eagerly to make sure the correct document controller is initialized.
         [PFTDocumentController sharedDocumentController];
 
         // Open a trace document.
         // NSString *tracePath = NSProcessInfo.processInfo.arguments[1];
-        NSString *tracePath = @"/Users/difeitang/Downloads/Instruments5.trace";
+        NSString *tracePath = @"/Users/difeitang/Downloads/Instruments_activity.trace";
+        
+        
+        NSString *traceTemplatePath = @"/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Resources/templates/Metal System Trace.tracetemplate";
+        
+        NSError *erro = nil;
+        PFTTraceDocument *template = [[PFTTraceDocument alloc] init];
+        [template readFromURL:[NSURL fileURLWithPath:traceTemplatePath] ofType:@"Trace Template" error:&erro];
+        
+        
+        
+        // NSString *tracePath = @"/private/var/root/Downloads/Instruments_m2.trace";
+        
         NSError *error = nil;
         
         PFTTraceDocument *document = [[PFTTraceDocument alloc] init];
         Class cls = PFTTraceDocument.class;
-        TUPrint(@"Version %d", class_getVersion(cls));
+        // TUPrint(@"Version %d", class_getVersion(cls));
         [document readFromURL:[NSURL fileURLWithPath:tracePath] ofType:@"Trace Document" error:&error];
         
         //PFTTraceDocument *document = [[PFTTraceDocument alloc]initWithContentsOfURL:[NSURL fileURLWithPath:tracePath] ofType:@"Trace Document" error:&error];
@@ -74,11 +107,13 @@ int main(int argc, const char * argv[]) {
         XRTrace *trace = document.trace;
         for (XRInstrument *instrument in trace.allInstrumentsList.allInstruments) {
             TUPrint(@"\nInstrument: %@ (%@)\n", instrument.type.name, instrument.type.uuid);
-
+            
             // Common routine to obtain the data container.
             if (![instrument isKindOfClass:XRLegacyInstrument.class]) {
                 instrument.viewController = [[XRAnalysisCoreStandardController alloc]initWithInstrument:instrument document:document];
+                TUPrint(@"----Legacy\n");
             }
+            
             id<XRInstrumentViewController> controller = instrument.viewController;
             [controller instrumentDidChangeSwitches];
             [controller instrumentChangedTableRequirements];
@@ -97,11 +132,14 @@ int main(int argc, const char * argv[]) {
                 // Different instruments can have different data structure.
                 // Here are some straightforward example code demonstrating how to process the data from several commonly used instruments.
                 NSString *instrumentID = instrument.type.uuid;
+                // TUPrint(@"UUID: %@\n", instrumentID);
+                
                 if ([instrumentID isEqualToString:@"com.apple.xray.instrument-type.coresampler2"]) {
                     // Time Profiler: print out all functions in descending order of self execution time.
                     XRCallTreeDetailView *callTreeView = (XRCallTreeDetailView *)container;
                     XRBacktraceRepository *backtraceRepository = callTreeView.backtraceRepository;
-                    static NSMutableArray<PFTCallTreeNode *> * (^ const flattenTree)(PFTCallTreeNode *) = ^(PFTCallTreeNode *rootNode) { // Helper function to collect all tree nodes.
+                    
+                    static NSMutableArray<PFTCallTreeNode *> * (^ flattenTree)(PFTCallTreeNode *) = ^(PFTCallTreeNode *rootNode) { // Helper function to collect all tree nodes.
                         NSMutableArray *nodes = [NSMutableArray array];
                         if (rootNode) {
                             [nodes addObject:rootNode];
@@ -111,12 +149,14 @@ int main(int argc, const char * argv[]) {
                         }
                         return nodes;
                     };
+                    /*
                     NSMutableArray<PFTCallTreeNode *> *nodes = flattenTree(backtraceRepository.rootNode);
                     [nodes sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(terminals)) ascending:NO]]];
                     for (PFTCallTreeNode *node in nodes) {
                         TUPrint(@"%@ %@ %i ms\n", node.libraryName, node.symbolName, node.terminals);
-                    }
-                } else if ([instrumentID isEqualToString:@"com.apple.xray.instrument-type.oa"]) {
+                    }*/
+                     
+                }else if ([instrumentID isEqualToString:@"com.apple.xray.instrument-type.oa"]) {
                     // Allocations: print out the memory allocated during each second in descending order of the size.
                     XRObjectAllocInstrument *allocInstrument = (XRObjectAllocInstrument *)container;
                     [allocInstrument._topLevelContexts[2] display]; // 4 contexts: Statistics, Call Trees, Allocations List, Generations.
@@ -181,17 +221,50 @@ int main(int argc, const char * argv[]) {
                         }
                         TUPrint(@"%@\n", string);
                     }
-                } else {
+                }else if([instrumentID isEqualToString:@"com.apple.xray.instrument-type.vsync-event"]){
+                    // todo: Displayed Surfaces: Print vsync time
+                    TUPrint(@"For Displayed Surfaces\n");
+                    //XRExtensionBasedInstrument *ebInstrument = (XRExtensionBasedInstrument *)container;
+                    XRAnalysisCoreCallTreeViewController *callTreeView = TUIvar(container, _callTreeViewController);
+                    XRMultiProcessBacktraceRepository *backtraceRepository = TUIvar(callTreeView, _backtraceRepository);
+                    XRAnalysisCoreDetailNode *displayedNode = TUIvar(container, _displayedNode);
+                    NSString *nodelabel = TUIvar(displayedNode, _label);
+                    TUPrint(nodelabel);
+                    XRAnalysisCoreDetailNode *nextNode = TUIvar(displayedNode, _nextSibling);
+                    TUPrint(TUIvar(nextNode, _label));
+                    XRContext *displayedContext = TUIvar(container, _displayedContext);
+                    NSMutableDictionary *attributes = displayedContext.attributes;
+                    for(id key in attributes){
+                        id obj = [attributes objectForKey:key];
+                        TUPrint(obj);
+                    }
+                    
+                }else if([instrumentID isEqualToString:@"com.apple.xray.instrument-type.activity"]){
+                    // Activity Monitor
+                    TUPrint(@"To be implemented.\n");
+                    XRAnalysisCoreDetailViewController * detail_controller = (XRAnalysisCoreDetailViewController *) container;
+                    //XRAnalysisCoreTableViewController *activityTable = TUIvar(container, _tabularViewController);
+                    //XRAnalysisCoreTableViewColumnList *cols = TUIvar(activityTable, _columns);
+                    id<XRContextContainer> data_context = detail_controller.currentDataContext;
+                    TUPrint(data_context);
+                    
+                    
+                    
+                }else {
                     TUPrint(@"Data processor has not been implemented for this type of instrument.\n");
                 }
+                
             }
+            
 
             // Common routine to cleanup after done.
             [controller instrumentWillBecomeInvalid];
+            
         }
 
         // Close the document safely.
         
+        // PFTClosePlugins();
         [document close];
     }
     return 0;
